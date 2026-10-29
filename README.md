@@ -7,3 +7,9 @@ docker compose up -d
 # для горячей перезагрузки prometheus без рестарта контейнера если файл будет редактироваться
 docker kill --signal=HUP prometheus_container_name
 ```
+
+Grafana id dashboard:
+```bash
+10620
+```
+
