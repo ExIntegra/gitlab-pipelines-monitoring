@@ -12,4 +12,5 @@ Grafana id dashboard:
 ```bash
 10620
 ```
+![Описание картинки](assets/exemple_pipeline.jpg)
 
