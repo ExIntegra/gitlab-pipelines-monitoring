@@ -1,0 +1,91 @@
+log:
+  level: info
+  format: json
+
+gitlab:
+  url: https://gitlab.com
+  enable_tls_verify: false
+  enable_health_check: false
+  #базовый лимит запросов в секунду:
+  maximum_requests_per_second: 1
+  burstable_requests_per_second: 5
+
+server:
+  listen_address: ":8080"
+  enable_pprof: false
+  metrics:
+    enable: true
+  webhook:
+    enabled: false
+  
+# отслеживание проектов
+# wildcards: {} - отслеживать все проекты
+wildcards:
+  - owner:
+      name: web
+      # поиск проектов группы name
+      kind: group
+      include_subgroups: true
+    archived: false
+
+  # - owner:
+  #     name:
+  #     kind: group
+  #     include_subgroups: true
+  #   archived: false
+
+  # - owner:
+  #     name:
+  #     kind: group
+  #     include_subgroups: true
+  #   archived: false
+
+# когда обновлять данные
+pull:
+  metrics:
+    on_init: true
+    scheduled: true
+    # избегать низких значений. может перегрузить API GitLab
+    interval_seconds: 60
+
+# общие настройки для мониторинга 
+project_defaults:
+  output_sparse_status_metrics: true
+  pull:
+    refs:
+      branches:
+        # мониторинг веток
+        enabled: true
+        # отслеживаем все ветки
+        regexp: ".*"
+        most_recent: 0
+        # метрики pipelines собираются у тех, кто не старше 7 дней
+        max_age_seconds: 604800
+        exclude_deleted: true
+
+      tags:
+        enabled: false
+
+      merge_requests:
+        enabled: false
+
+    pipeline:
+      # собираем метрики каждой job
+      jobs:
+        enabled: false
+      # не собираем переменные, так как есть риск утечки чувствительных данных
+      variables:
+        enabled: false
+
+# garbage_collect:
+#   projects:
+#     scheduled: true
+#     interval_seconds: 14400
+
+#   refs:
+#     scheduled: true
+#     interval_seconds: 1800
+  
+#   metrics:
+#     scheduled: true
+#     interval_seconds: 600

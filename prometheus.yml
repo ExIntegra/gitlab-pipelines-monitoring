@@ -1,0 +1,12 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: gitlab-ci
+    scrape_interval: 30s
+    #metrics_path: /metrics
+    static_configs:
+      - targets:
+        - gitlab-exporter:8080
+
+#docker kill --signal=HUP prometheus_container_name
